@@ -3,6 +3,7 @@
     width: 50%;
     margin: 0 auto;
     overflow: hidden;
+    border: 1px solid #ccc; /* optional: for better visualization */
 }
 
 .image {
