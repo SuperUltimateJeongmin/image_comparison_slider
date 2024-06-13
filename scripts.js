@@ -1,24 +1,17 @@
 const slider = document.querySelector('.slider');
 const container = document.querySelector('.container');
-const overlay = document.querySelector('.overlay');
+const beforeImage = document.querySelector('.before');
 
 let isDragging = false;
 
-slider.addEventListener('mousedown', function () {
+slider.addEventListener('mousedown', function (e) {
+    e.preventDefault();
     isDragging = true;
     document.addEventListener('mousemove', moveSlider);
-    document.addEventListener('mouseup', function () {
-        isDragging = false;
-        document.removeEventListener('mousemove', moveSlider);
-    });
+    document.addEventListener('mouseup', stopDragging);
 });
 
-container.addEventListener('mouseleave', function () {
-    if (isDragging) {
-        isDragging = false;
-        document.removeEventListener('mousemove', moveSlider);
-    }
-});
+container.addEventListener('mouseleave', stopDragging);
 
 function moveSlider(e) {
     if (!isDragging) return;
@@ -28,5 +21,12 @@ function moveSlider(e) {
     if (offsetX < 0) offsetX = 0;
     if (offsetX > rect.width) offsetX = rect.width;
     slider.style.left = offsetX + 'px';
-    overlay.style.width = offsetX + 'px';
+    beforeImage.style.clip = `rect(0, 500px, 300px, ${offsetX}px)`;
+}
+
+function stopDragging() {
+    if (isDragging) {
+        isDragging = false;
+        document.removeEventListener('mousemove', moveSlider);
+    }
 }
